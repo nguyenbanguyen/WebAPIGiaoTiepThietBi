@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace VNPTThanhHoa_WebAPI
 {
@@ -22,32 +24,33 @@ namespace VNPTThanhHoa_WebAPI
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
-
+        /// <summary>
+        /// Set up for using controller
+        /// </summary>
+        
         public IConfigurationRoot Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
-            services.AddMvc();
-            // config swagger helping page below
-
-            services.AddLogging();
-
-            // Add our repository type-- cần config
-            //services.AddSingleton<ITodoRepository, TodoRepository>();
-
-            // Register the Swagger generator, defining one or more Swagger documents
-            //config title và version hiển thị tại trang /swagger 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "VNPTThanhHoaWebAPI", Version = "v1" });
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
             // config swagger helping page below
             app.UseMvcWithDefaultRoute();
 
@@ -59,12 +62,48 @@ namespace VNPTThanhHoa_WebAPI
             app.UseSwaggerUI(c =>
             {
                 // URL của json và Description
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VNPT API V1");
             });
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
         }
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add framework services.
+            services.AddMvc();
+            // config swagger helping page below
+
+            services.AddLogging();
+
+            // Add our repository type-- cần config
+            //services.AddSingleton<ITodoRepository, TodoRepository>();
+            //services.AddSingleton<>
+            // Register the Swagger generator, defining one or more Swagger documents
+            //config title và version hiển thị tại trang /swagger 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info {
+                    Version = "v1",
+                    Title = "VNpt API",
+                    Description = "A simple start ASP.NET Core Web API",
+                    TermsOfService = "None",
+                    Contact = new Contact { Name = "Nguyễn Bá Nguyên", Email = "", Url = "https://github.com/nguyenbanguyen" },
+                    License = new License { Name = "To Be Determined", Url = "http://url.com" }
+                });
+                // thiết lập vị trí  xml documented file sử dụng cho swagger
+                // cần thiết lập để có thể chạy trên host clound
+                //var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, ".xml");
+                //c.IncludeXmlComments(filePath);
+                //c.IncludeXmlComments( , "MyApi.xml");
+                //c.IncludeXmlComments(string.Format(@"{0}\App_Data\MyApi.XML",  System.AppDomain.CurrentDomain.BaseDirectory));
+                //var filePath = Path.Combine("App_Data/netcoreapp1.1", ".xml");
+                //c.IncludeXmlComments(filePath);
+            });
+        }
+
+
     }
 }

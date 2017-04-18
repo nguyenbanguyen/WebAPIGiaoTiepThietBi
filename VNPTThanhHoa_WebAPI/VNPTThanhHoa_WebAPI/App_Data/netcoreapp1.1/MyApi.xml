@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VNPTThanhHoa_WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:VNPTThanhHoa_WebAPI.Controllers.ValuesController">
+            <summary>
+            template controller, use to check swagger help page api
+            </summary>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Get">
+            <summary>
+             get action return IEnumerable string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Get(System.Int32)">
+            <summary>
+            just get int parameter id to return fixed value string : "value"
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Post(System.String)">
+            <summary>
+            Post action return void, take string value from body
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Put(System.Int32,System.String)">
+            <summary>
+             put action return void, take string value from body and parameter int id
+            </summary>
+            <param name="id"> int </param>
+            <param name="value"> [FromBody] string</param>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Delete(System.Int32)">
+            <summary>
+            Delete action return void
+            </summary>
+            <param name="id">int</param>
+        </member>
+    </members>
+</doc>

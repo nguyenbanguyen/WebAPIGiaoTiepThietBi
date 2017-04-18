@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VNPTThanhHoa_WebAPI</name>
+    </assembly>
+    <members>
+        <member name="F:VNPTThanhHoa_WebAPI.Controllers.ProductController.Products">
+            <summary>
+            Controller demo quản lý hiển thị Products
+            </summary>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ProductController.Get100Product">
+            <summary>
+            Lấy array  100 product với id , tên chạy loop 1-100
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ProductController.GetProductByAmount(System.Int32)">
+            <summary>
+            Trả về array Product dựa vào parameter NumberOfProduct bằng Json ,giới hạn max 9999 để tránh sử dụng tài nguyên quá nhiều
+            </summary>
+            <param name="NumberOfProduct"> số lượng sản phẩm</param>
+            <returns></returns>
+            
+        </member>
+        <member name="T:VNPTThanhHoa_WebAPI.Controllers.ValuesController">
+            <summary>
+            template controller, use to check swagger help page api
+            </summary>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Get">
+            <summary>
+             get action return IEnumerable string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Get(System.Int32)">
+            <summary>
+            just get int parameter id to return fixed value string : "value"
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Post(System.String)">
+            <summary>
+            Post action return void, take string value from body
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Put(System.Int32,System.String)">
+            <summary>
+             put action return void, take string value from body and parameter int id
+            </summary>
+            <param name="id"> int </param>
+            <param name="value"> [FromBody] string</param>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ValuesController.Delete(System.Int32)">
+            <summary>
+            Delete action return void
+            </summary>
+            <param name="id">int</param>
+        </member>
+        <member name="T:VNPTThanhHoa_WebAPI.Models.Products">
+            <summary>
+            Model quản lý product
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Id">
+            <summary>
+            Identi number
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Name">
+            <summary>
+            Tên sản phẩm
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Category">
+            <summary>
+            Category của sản phẩm
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Price">
+            <summary>
+            Giá tiền
+            </summary>
+        </member>
+        <member name="T:VNPTThanhHoa_WebAPI.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Startup.Configuration">
+            <summary>
+            Set up for using controller
+            </summary>
+        </member>
+    </members>
+</doc>
