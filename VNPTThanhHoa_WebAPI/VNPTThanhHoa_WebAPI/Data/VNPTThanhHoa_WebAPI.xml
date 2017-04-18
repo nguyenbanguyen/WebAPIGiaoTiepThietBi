@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VNPTThanhHoa_WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:VNPTThanhHoa_WebAPI.Controllers.ProductController">
+            <summary>
+            api class product
+            </summary>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ProductController.Get100Product">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VNPTThanhHoa_WebAPI.Controllers.ProductController.GetProductByAmount(System.Int32)">
+            <summary>
+            get by amount
+            </summary>
+            <param name="Amount"></param>
+            <returns> Enumerable of products</returns>
+            
+        </member>
+        <member name="T:VNPTThanhHoa_WebAPI.Models.Products">
+            <summary>
+            Mock Product
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Id">
+            <summary>
+            identity number
+            </summary>
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Name">
+            <summary>
+            name of product
+            </summary>
+            
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Category">
+            <summary>
+            category of product
+            </summary>
+            
+        </member>
+        <member name="P:VNPTThanhHoa_WebAPI.Models.Products.Price">
+            <summary>
+            price of product
+            </summary>
+            
+        </member>
+    </members>
+</doc>
