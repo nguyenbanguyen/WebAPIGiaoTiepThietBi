@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace VNPTThanhHoa_WebAPI.Models
 {
+
     /// <summary>
     /// Mock Product
     /// </summary>

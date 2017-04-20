@@ -6,11 +6,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Data\netcoreapp1.1\.xml</DocumentationFile>
-    <OutputPath>Data\</OutputPath>
+    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <OutputPath>bin\Release\</OutputPath>
+    <WarningLevel>3</WarningLevel>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="bin\Release\netcoreapp1.1\" />
+    <Folder Include="Data\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>

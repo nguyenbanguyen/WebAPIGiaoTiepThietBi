@@ -16,6 +16,10 @@ namespace VNPTThanhHoa_WebAPI
 {
     public class Startup
     {
+        /// <summary>
+        /// setup for MVC
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -27,6 +31,7 @@ namespace VNPTThanhHoa_WebAPI
         }
 
         public IConfigurationRoot Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -73,6 +78,7 @@ namespace VNPTThanhHoa_WebAPI
             loggerFactory.AddDebug();
             // redirect to https
             //var options = new RewriteOptions().AddRedirectToHttps();
+            // setup mvc
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -82,6 +88,7 @@ namespace VNPTThanhHoa_WebAPI
                 app.UseExceptionHandler("/Home/Error");
             }
             // config swagger
+            //setup mvc routes
             app.UseMvc(routes =>
             {
                     routes.MapRoute(
