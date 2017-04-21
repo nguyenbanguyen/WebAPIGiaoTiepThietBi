@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using NetCoreMVC.Models;
 
+
 namespace NetCoreMVC
 {
     public class Startup
@@ -31,9 +32,12 @@ namespace NetCoreMVC
         {
             // Add framework services.
             services.AddMvc();
-
-            services.AddDbContext<NetCoreMVCContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("NetCoreMVCContext")));
+            /// add db context dựa vào connections tring netcoremvccontext nằm ở appsetting.json
+            //services.AddDbContext<NetCoreMVCContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("NetCoreMVCContext")));
+            //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=NetCoreMVC21042017;Trusted_Connection=True;MultipleActiveResultSets=true";
+            services.AddDbContext<NetCoreMVCContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,13 +57,15 @@ namespace NetCoreMVC
             }
 
             app.UseStaticFiles();
-
+            // setup Route config for mvc
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            // khởi tạo gán giá trị vào db
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

@@ -8,9 +8,10 @@ using NetCoreMVC.Models;
 namespace NetCoreMVC.Migrations
 {
     [DbContext(typeof(NetCoreMVCContext))]
-    partial class NetCoreMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20170421031404_5Create")]
+    partial class _5Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

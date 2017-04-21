@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 
 namespace NetCoreMVC.Models
 {
@@ -13,9 +9,11 @@ namespace NetCoreMVC.Models
         [Key]
         public int AccountID { get; set; }
         [StringLength(200)]
+        [DisplayName("Địa Chỉ")]
         public string Address { get; set; }
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(10)]
         public string Password { get; set; }
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd MM yyyy H:mm}", ApplyFormatInEditMode = true)]
@@ -23,5 +21,6 @@ namespace NetCoreMVC.Models
 
         public decimal Balance { get; set; }
         public bool Rememberme { get; set; }
+        public bool IsHuman { get; set; }
     }
 }

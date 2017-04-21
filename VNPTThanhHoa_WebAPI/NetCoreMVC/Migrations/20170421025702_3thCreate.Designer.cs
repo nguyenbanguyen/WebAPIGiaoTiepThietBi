@@ -8,9 +8,10 @@ using NetCoreMVC.Models;
 namespace NetCoreMVC.Migrations
 {
     [DbContext(typeof(NetCoreMVCContext))]
-    partial class NetCoreMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20170421025702_3thCreate")]
+    partial class _3thCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -27,8 +28,6 @@ namespace NetCoreMVC.Migrations
                     b.Property<decimal>("Balance");
 
                     b.Property<string>("CreatedDate");
-
-                    b.Property<bool>("IsHuman");
 
                     b.Property<string>("Password")
                         .IsRequired();

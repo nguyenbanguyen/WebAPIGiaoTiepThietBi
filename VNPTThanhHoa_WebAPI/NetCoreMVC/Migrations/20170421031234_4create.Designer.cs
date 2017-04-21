@@ -8,8 +8,8 @@ using NetCoreMVC.Models;
 namespace NetCoreMVC.Migrations
 {
     [DbContext(typeof(NetCoreMVCContext))]
-    [Migration("20170421011758_initial")]
-    partial class initial
+    [Migration("20170421031234_4create")]
+    partial class _4create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,10 @@ namespace NetCoreMVC.Migrations
 
                     b.Property<string>("Address")
                         .HasMaxLength(200);
+
+                    b.Property<decimal>("Balance");
+
+                    b.Property<string>("CreatedDate");
 
                     b.Property<string>("Password")
                         .IsRequired();

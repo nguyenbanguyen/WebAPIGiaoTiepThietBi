@@ -16,6 +16,12 @@
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Balance)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Password)
                 </th>
                 <th>
@@ -29,6 +35,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Password)
