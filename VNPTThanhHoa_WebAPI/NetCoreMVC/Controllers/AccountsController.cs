@@ -12,10 +12,11 @@ namespace NetCoreMVC.Controllers
 
         public AccountsController(NetCoreMVCContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Accounts
+        [Route("Accounts/Index/{searchstring}")]
         public async Task<IActionResult> Index(string searchstring)
         {
             var _account = from a in _context.Account select a;
