@@ -11,9 +11,9 @@ namespace NetCoreMVC.Controllers
     public class HelloController : Controller
     {
         // GET: /<controller>/
-        public string Index()
+        public IActionResult Index()
         {
-            return "This is index";
+            return View();
         }
         public string Welcome()
         {
@@ -26,6 +26,12 @@ namespace NetCoreMVC.Controllers
             string now = DateTime.Now.ToString();
             for(int i = 0; i < number; i++) { myname += name + " thứ :" + i; }
             return myname;
+        }
+        public IActionResult WelcomeBro(string name)
+        {
+            ViewData["UserName"] = name;
+            ViewData["DateTime"] = DateTime.Now.ToString();
+            return View();
         }
 
     }
