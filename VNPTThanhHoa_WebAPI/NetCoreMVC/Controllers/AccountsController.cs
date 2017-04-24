@@ -72,6 +72,7 @@ namespace NetCoreMVC.Controllers
                 return RedirectToAction("Index");
             }
             return View(account);
+           
         }
 
         // GET: Accounts/Edit/5
