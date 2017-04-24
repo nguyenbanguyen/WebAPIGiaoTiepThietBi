@@ -16,6 +16,9 @@ namespace NetCoreMVC.Controllers
         }
 
         // GET: Accounts
+        //route with attribute
+        [Route("")]
+        [Route("Accounts")]
         [Route("Accounts/Index/{searchstring}")]
         public async Task<IActionResult> Index(string searchstring)
         {
@@ -30,6 +33,7 @@ namespace NetCoreMVC.Controllers
         }
 
         // GET: Accounts/Details/5
+        [HttpGet("/Accounts/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,7 +60,8 @@ namespace NetCoreMVC.Controllers
         // POST: Accounts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        //rount with attribute with http verbs
+        [HttpPost("/Accounts/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AccountID,Address,Password,Rememberme")] Account account)
         {
@@ -70,6 +75,7 @@ namespace NetCoreMVC.Controllers
         }
 
         // GET: Accounts/Edit/5
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

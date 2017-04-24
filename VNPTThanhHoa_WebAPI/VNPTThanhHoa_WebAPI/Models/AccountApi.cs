@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VNPTThanhHoa_WebAPI.Models
 {
-    public class Account
+    public class AccountApi
     {
         [Required]
         public int Id { get; set; }

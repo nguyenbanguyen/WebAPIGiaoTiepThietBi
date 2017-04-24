@@ -11,6 +11,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VNPTThanhHoa_WebAPI.Data;
 
 namespace VNPTThanhHoa_WebAPI
 {
@@ -48,7 +50,9 @@ namespace VNPTThanhHoa_WebAPI
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
-
+            //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=NetCoreMVC21042017;Trusted_Connection=True;MultipleActiveResultSets=true";
+            services.AddDbContext<VNPTAPIContext>(options => options.UseSqlServer(connection));
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -72,7 +76,7 @@ namespace VNPTThanhHoa_WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, VNPTAPIContext VnptDbContext)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -82,6 +86,8 @@ namespace VNPTThanhHoa_WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
@@ -97,18 +103,21 @@ namespace VNPTThanhHoa_WebAPI
             });
             app.UseStaticFiles();
             //app.UseDefaultFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
+            // tạo file swagger json
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+            // tạo page swagger helper từ swagger json
             app.UseSwaggerUI(c =>
             {
                 //  url / description
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VNPT API V1.0");
 
             });
+            //DbInitializer.Initialize(VnptDbContext);
 
 
         }

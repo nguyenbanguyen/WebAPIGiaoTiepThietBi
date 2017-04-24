@@ -16,7 +16,7 @@ namespace NetCoreMVC.Models
         [StringLength(10)]
         public string Password { get; set; }
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd MM yyyy H:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM yyyy}", ApplyFormatInEditMode = true)]
         public string CreatedDate { get; set; }
 
         public decimal Balance { get; set; }
