@@ -79,11 +79,13 @@ namespace VNPTThanhHoa_WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, VNPTAPIContext VnptDbContext)
         {
+            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             // redirect to https
             //var options = new RewriteOptions().AddRedirectToHttps();
             // setup mvc
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,8 +94,10 @@ namespace VNPTThanhHoa_WebAPI
             }
             else
             {
+                // Khai báo sử dụng exceptionhander, cần code  /home/error sau
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseStaticFiles();
             // config swagger
             //setup mvc routes
             app.UseMvc(routes =>
@@ -102,7 +106,7 @@ namespace VNPTThanhHoa_WebAPI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseStaticFiles();
+            
             //app.UseDefaultFiles();
             //app.UseMvcWithDefaultRoute();
 
@@ -119,7 +123,7 @@ namespace VNPTThanhHoa_WebAPI
 
             });
             //DbInitializer.Initialize(VnptDbContext);
-
+            
 
         }
     }

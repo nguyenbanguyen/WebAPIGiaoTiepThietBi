@@ -8,7 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
     <OutputPath>bin\Release\</OutputPath>
-    <WarningLevel>3</WarningLevel>
+    <WarningLevel>4</WarningLevel>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
@@ -28,10 +28,18 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc3" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.3.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.3.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.3.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
