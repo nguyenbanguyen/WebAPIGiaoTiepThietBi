@@ -23,11 +23,13 @@ namespace VNPTThanhHoa_WebAPI.Controllers
             string linetestPassword = "dokiem.tha";
             string account = "dokiem.tha";
             //ServicesSoapClient service = new ServicesSoapClient();
-            var sv = new ServicesSoapClient(ServicesSoapClient.EndpointConfiguration.ServicesSoap);
-            var x = await sv.GetAccountAsync(linetestUser, linetestPassword, account);
+            ServicesSoapClient Service = new ServicesSoapClient(ServicesSoapClient.EndpointConfiguration.ServicesSoap);
+            Task<CustomerAccountInfo[]> getaccount = Service.GetAccountAsync(linetestUser, linetestPassword, account);
+            //CustomerAccountInfo[] Customer = await Service.GetAccountAsync(linetestUser, linetestPassword, account);
+            CustomerAccountInfo[] Customer = await getaccount;
 
             //CustomerAccountInfo[] Account = await GetAccountAsync(linetestUser, linetestPassword, account);
-            return x.ToString();// " This is just welcome";
+            return Customer.ToString();// " This is just welcome";
         }
     }
 }
