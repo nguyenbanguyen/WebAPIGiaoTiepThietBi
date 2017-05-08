@@ -49,7 +49,7 @@ namespace VNPTThanhHoa_WebAPI.Controllers
             ProductsApi[] LongProduct = new ProductsApi[Amount];
             for (int i = 0; i < Amount; i++)
             {
-                LongProduct[i] = new ProductsApi { Id = i, Name = "cà loại " + i, Category = "cà", Price = 10000 };
+                LongProduct[i] = new ProductsApi {  Name = "cà loại " + i, Category = "cà", Price = 10000 };
             }
             return LongProduct;
         }

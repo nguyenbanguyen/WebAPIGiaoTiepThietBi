@@ -50,10 +50,8 @@ namespace VNPTThanhHoa_WebAPI
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
-            //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây
-            //var connection = @"Server=(localdb)\mssqllocaldb;Database=NetCoreMVC21042017;Trusted_Connection=True;MultipleActiveResultSets=true";
-            var connection = @"Server=tcp:restaurantdemo2017.database.windows.net,1433;Initial Catalog=VnptApiDB;Persist Security Info=False;User ID=ganuong;Password=Dcm12455973@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-            services.AddDbContext<VNPTAPIContext>(options => options.UseSqlServer(connection));
+            //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây// với app cần bảo mật thì nên lưu connection string tại appsettings.json.
+            services.AddDbContext<VNPTAPIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>

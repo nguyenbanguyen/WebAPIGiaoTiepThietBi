@@ -7,13 +7,20 @@ namespace VNPTThanhHoa_WebAPI.Models
 {
     public class CustomerAccountInfoViewModel 
     {
-        public virtual ICollection< CustomerAccountInfo> Custommeraccountinfo { get; set; }
+        public  LinkedList< CustomerAccountInfo> Custommeraccountinfo { get; set; }
+        //public virtual  LinkedList<CustomerAccountInfo> LinkedCustomerfortest{ get; set; }
         public string Error { get; set; }
         public CustomerAccountInfoViewModel()
         {
-            Custommeraccountinfo = null;
+            //LinkedCustomerfortest = null;
+            Custommeraccountinfo =new LinkedList<CustomerAccountInfo>();
             Error = "";
         }
+        public void Add(CustomerAccountInfo Account)
+        {
+            Custommeraccountinfo.AddLast(Account);
+        }
+
         //public string Error { get; set; }
         //public CustomerAccountInfoViewModel()
         //{

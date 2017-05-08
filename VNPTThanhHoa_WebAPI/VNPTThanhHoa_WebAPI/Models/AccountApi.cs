@@ -10,7 +10,7 @@ namespace VNPTThanhHoa_WebAPI.Models
     public class AccountApi
     {
         [Required]
-        public int Id { get; set; }
+        private int Id { get; set; }
 
         public String Name { get; set; }
         [DataType(DataType.Date)]

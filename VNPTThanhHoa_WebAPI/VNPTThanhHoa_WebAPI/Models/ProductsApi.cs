@@ -17,8 +17,8 @@ namespace VNPTThanhHoa_WebAPI.Models
         /// <summary>
         /// identity number
         /// </summary>
-        //[Required]
-        public int Id { get; set; }
+        [Required]
+        private int Id { get; set; }
         /// <summary>
         /// name of product
         /// </summary>
