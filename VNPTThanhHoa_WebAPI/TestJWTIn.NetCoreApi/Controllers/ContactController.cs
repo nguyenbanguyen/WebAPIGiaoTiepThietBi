@@ -21,7 +21,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
         }
 
         // GET: api/Contact
-        [HttpGet]
+        [HttpGet("get")]
         public IEnumerable<Contact> GetContact()
         {
             return _context.Contact;
@@ -82,7 +82,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
         }
 
         // POST: api/Contact
-        [HttpPost]
+        [HttpPost("post")]
         public async Task<IActionResult> PostContact([FromBody] Contact contact)
         {
             if (!ModelState.IsValid)

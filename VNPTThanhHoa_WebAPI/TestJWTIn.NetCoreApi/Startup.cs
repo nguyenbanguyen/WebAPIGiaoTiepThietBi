@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TestJWTIn.NetCoreApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace TestJWTIn.NetCoreApi
 {
@@ -31,9 +33,21 @@ namespace TestJWTIn.NetCoreApi
         {
             // Add framework services.
             services.AddMvc();
+            //Config swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
             // Add dbcontext with connectionstring from appsettings.json
             var ConnectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<PeopleDbContext>(options => options.UseSqlServer(ConnectionString));
+
+            //add identitycore vào project
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<PeopleDbContext>()
+                .AddDefaultTokenProviders();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,9 +55,36 @@ namespace TestJWTIn.NetCoreApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            // redirect to https
+            //var options = new RewriteOptions().AddRedirectToHttps();
+            // setup mvc
+            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                // Khai báo sử dụng exceptionhander, cần code  /home/error sau
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                // SwaggerGen won't find controllers that are routed via this technique.
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
+            // khởi tạo base data để test
             SeedData.Seed(app);
+            // sử dụng swagger
+            app.UseSwagger();
+            // sử dụng swagger page
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test JWT API V1");
+            });
         }
     }
 }
