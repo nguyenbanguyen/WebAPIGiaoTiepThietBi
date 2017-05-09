@@ -36,7 +36,15 @@ namespace TestJWTIn.NetCoreApi
             //Config swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = " API Helper Page",
+                    Description = "A simple start ASP.NET Core Web API/ MBAAS",
+                    TermsOfService = "None",
+                    Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "Nguyễn Bá Nguyên", Email = "", Url = "https://github.com/nguyenbanguyen/" },
+                    License = new License { Name = "Under Construction...", Url = " " }
+                });
             });
 
             // Add dbcontext with connectionstring from appsettings.json
@@ -68,18 +76,25 @@ namespace TestJWTIn.NetCoreApi
             else
             {
                 // Khai báo sử dụng exceptionhander, cần code  /home/error sau
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
-
+            //sử dụng identity đã khai báo server ở trên
+            app.UseIdentity();
+            // sử dụng MVC routes
             app.UseMvc(routes =>
             {
+                // route for error page handler
+                routes.MapRoute(name: "Error", template: "Error",defaults: new { controller = "Error", action = "Error" });
                 // SwaggerGen won't find controllers that are routed via this technique.
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
             // khởi tạo base data để test
             SeedData.Seed(app);
+            // add default account
+            SeedData.EnsurePopulated(app);
             // sử dụng swagger
             app.UseSwagger();
+
             // sử dụng swagger page
             app.UseSwaggerUI(c =>
             {

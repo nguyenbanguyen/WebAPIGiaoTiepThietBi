@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TestJWTIn.NetCoreApi.Models
 {
@@ -19,7 +21,32 @@ namespace TestJWTIn.NetCoreApi.Models
 
             };
         }
-        public static void Seed(IApplicationBuilder app)
+        private const string adminUser = "Admin";
+        private const string adminPassword = "A@a12345";
+        //lỗi Dependency Injection with multi Constructors
+        public static async void EnsurePopulated(IApplicationBuilder app)
+        {
+            UserManager<ApplicationUser> UserManager = app.ApplicationServices.GetRequiredService<UserManager<ApplicationUser>>();
+            ApplicationUser user = await UserManager.FindByIdAsync(adminUser);
+            if (user == null)
+            {
+                //user = new ApplicationUser();
+                user.UserName = adminUser;
+                IdentityResult v= await UserManager.CreateAsync(user, adminPassword);
+                if (v.Succeeded)
+                {
+                    int count = 0;
+                    count++;
+                }
+                else
+                {
+                    int count = 0;
+                    count++;
+                }
+
+            }
+        }
+        public static  void Seed(IApplicationBuilder app)
         {
             var Context = app.ApplicationServices.GetRequiredService<PeopleDbContext>();
             if (!Context.Contact.Any())
@@ -27,6 +54,14 @@ namespace TestJWTIn.NetCoreApi.Models
                 Context.Contact.AddRange(get());
             }
             Context.SaveChanges();
+            //UserManager<ApplicationUser> UserManager = app.ApplicationServices.GetRequiredService<UserManager<ApplicationUser>>();
+            //ApplicationUser user = await UserManager.FindByIdAsync(adminUser);
+            //if (user == null)
+            //{
+            //    user = new ApplicationUser();
+            //    user.Id = adminUser;
+            //    await UserManager.CreateAsync(user, adminPassword);
+            //}
         }
     }
 }

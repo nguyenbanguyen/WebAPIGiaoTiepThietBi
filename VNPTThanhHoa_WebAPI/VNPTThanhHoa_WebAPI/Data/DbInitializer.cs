@@ -20,36 +20,36 @@ namespace VNPTThanhHoa_WebAPI.Data
                 {
                     return; // Đã có DB thì return  
                 }
-                context.Products.AddRange(
-                    //AccountID is [key] so can't be add value
-                    new ProductsApi
-                    {
+                //context.Products.AddRange(
+                //    //AccountID is [key] so can't be add value
+                //    new ProductsApi
+                //    {
 
-                        Name="Cá hồi",
-                        Category="Food",
-                        Price=100000
-                    },
-                    new ProductsApi
-                    {
+                //        Name="Cá hồi",
+                //        Category="Food",
+                //        Price=100000
+                //    },
+                //    new ProductsApi
+                //    {
                        
-                        Name = "Cá hồi 2",
-                        Category = "Food",
-                        Price = 100000
-                    },
-                    new ProductsApi
-                    {
-                        Name = "Cá hồi 3",
-                        Category = "Food",
-                        Price = 100000
-                    },
-                    new ProductsApi
-                    {
-                        Name = "Cá hồi 4",
-                        Category = "Food",
-                        Price = 100000
-                    }
-                    );
-                context.SaveChanges();
+                //        Name = "Cá hồi 2",
+                //        Category = "Food",
+                //        Price = 100000
+                //    },
+                //    new ProductsApi
+                //    {
+                //        Name = "Cá hồi 3",
+                //        Category = "Food",
+                //        Price = 100000
+                //    },
+                //    new ProductsApi
+                //    {
+                //        Name = "Cá hồi 4",
+                //        Category = "Food",
+                //        Price = 100000
+                //    }
+                //    );
+                //context.SaveChanges();
             }
 
         }

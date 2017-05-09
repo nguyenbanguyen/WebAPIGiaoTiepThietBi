@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace VNPTThanhHoa_WebAPI.Models
@@ -17,8 +16,9 @@ namespace VNPTThanhHoa_WebAPI.Models
         /// <summary>
         /// identity number
         /// </summary>
-        [Required]
-        private int Id { get; set; }
+        
+        private int ProductsApiId { get; set; } 
+        
         /// <summary>
         /// name of product
         /// </summary>

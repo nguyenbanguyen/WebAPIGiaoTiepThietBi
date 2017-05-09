@@ -13,6 +13,8 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VNPTThanhHoa_WebAPI.Data;
+using VNPTThanhHoa_WebAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace VNPTThanhHoa_WebAPI
 {
@@ -57,6 +59,11 @@ namespace VNPTThanhHoa_WebAPI
             });
             //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây// với app cần bảo mật thì nên lưu connection string tại appsettings.json.
             services.AddDbContext<VNPTAPIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+      
+            //add identitycore vào project
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<VNPTAPIContext>()
+            //    .AddDefaultTokenProviders();
 
 
             // Register the Swagger generator, defining one or more Swagger documents
