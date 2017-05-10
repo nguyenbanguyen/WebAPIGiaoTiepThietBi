@@ -8,6 +8,10 @@ using TestJWTIn.NetCoreApi.Models;
 using TestJWTIn.NetCoreApi.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using TestJWTIn.NetCoreApi.Options;
+using Microsoft.Extensions.Options;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace TestJWTIn.NetCoreApi.Controllers
 {
@@ -15,13 +19,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
-        // nạp dữ liệu từ db vào _userManager
-        //private UserManager<ApplicationUser> _userManager;
-
-        //private AccountController(UserManager<ApplicationUser> UserManager)
-        //{
-        //    _userManager = UserManager;
-        //}
+ 
 
 
         //Dependency Injection for Account Controller
@@ -29,6 +27,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly PeopleDbContext _Peopledb;
+        private readonly JwtIssuerOptions _jwtOptions;
         //private readonly IEmailSender _emailSender;
         //private readonly ISmsSender _smsSender;
         //private static bool _databaseChecked;
@@ -37,7 +36,8 @@ namespace TestJWTIn.NetCoreApi.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            PeopleDbContext Peopledb
+            PeopleDbContext Peopledb,
+            IOptions<JwtIssuerOptions> JwtOptions
             //IEmailSender emailSender,
             //ISmsSender smsSender,
             //ILoggerFactory loggerFactory
@@ -46,6 +46,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _Peopledb = Peopledb;
+            _jwtOptions = JwtOptions.Value;
             //_emailSender = emailSender;
             //_smsSender = smsSender;
             //_logger = loggerFactory.CreateLogger<AccountController>();
@@ -70,14 +71,47 @@ namespace TestJWTIn.NetCoreApi.Controllers
         //public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         public async Task<bool> Register(string UserName, string Email, String Password)
         {
+            int n = 9;
+            int[] d = new int[n - 1];
             var user = new ApplicationUser { UserName = UserName, Email = Email };
             var result = await _userManager.CreateAsync(user, Password);
             if (!result.Succeeded)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
+        }
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                throw new NotImplementedException();
+            }
+            var result = await _userManager.CheckPasswordAsync(user,model.Password);
+            if (result)
+            {
+                var Princial = await _signInManager.CreateUserPrincipalAsync(user);
+                //Create JWT and encode
+                var Jwt = new JwtSecurityToken(
+                    issuer: _jwtOptions.Issuer,
+                    audience: _jwtOptions.Audience,
+                    claims: Princial.Claims,
+                    notBefore: _jwtOptions.NotBefore,
+                    expires:_jwtOptions.Expiration,
+                    signingCredentials:_jwtOptions.SigningCredentials
+                    );
+                var EncodedJwt = new JwtSecurityTokenHandler().WriteToken(Jwt);
+                var response = new
+                {
+                    access_token = EncodedJwt,
+                    expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                };
+                return new JsonResult(response);
+            }
+            throw new NotImplementedException();
         }
         //private readonly PeopleDbContext _context;
 

@@ -11,11 +11,16 @@ using TestJWTIn.NetCoreApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using TestJWTIn.NetCoreApi.Options;
 
 namespace TestJWTIn.NetCoreApi
 {
     public class Startup
     {
+        private const string SecretKey = "ThisStringToMakeUniqueKeyIsn'tIt?";
+        private readonly SymmetricSecurityKey _SignInKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(SecretKey));
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -24,6 +29,7 @@ namespace TestJWTIn.NetCoreApi
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -49,13 +55,23 @@ namespace TestJWTIn.NetCoreApi
 
             // Add dbcontext with connectionstring from appsettings.json
             var ConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<PeopleDbContext>(options => options.UseSqlServer(ConnectionString));
+            services.AddDbContext<PeopleDbContext>(options => 
+                 options.UseSqlServer(ConnectionString));
 
             //add identitycore vào project
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<PeopleDbContext>()
                 .AddDefaultTokenProviders();
-            
+            // Get options from app settings( Appsettings.json), cần add multi appsettings.json dựa vào enviroment
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            // Configure JwtIssuerOptions
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                options.SigningCredentials = new SigningCredentials(_SignInKey, SecurityAlgorithms.HmacSha256);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +81,29 @@ namespace TestJWTIn.NetCoreApi
             loggerFactory.AddDebug();
             // redirect to https
             //var options = new RewriteOptions().AddRedirectToHttps();
-            // setup mvc
+            // sử dụng JWT
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _SignInKey,
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters
+            });
+
+
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {

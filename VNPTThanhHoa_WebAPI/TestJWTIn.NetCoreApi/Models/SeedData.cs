@@ -30,7 +30,7 @@ namespace TestJWTIn.NetCoreApi.Models
             ApplicationUser user = await UserManager.FindByIdAsync(adminUser);
             if (user == null)
             {
-                //user = new ApplicationUser();
+                user = new ApplicationUser();
                 user.UserName = adminUser;
                 IdentityResult v= await UserManager.CreateAsync(user, adminPassword);
                 if (v.Succeeded)
