@@ -52,6 +52,12 @@ namespace TestJWTIn.NetCoreApi
                     License = new License { Name = "Under Construction...", Url = " " }
                 });
             });
+            // Use  policy Auth
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("guest", policy => policy.RequireClaim("DisneyCharacter", "IAmMickey"));
+                options.AddPolicy("superman", policy => policy.RequireClaim("Role", "Superman"));
+            });
 
             // Add dbcontext with connectionstring from appsettings.json
             var ConnectionString = Configuration.GetConnectionString("DefaultConnection");
