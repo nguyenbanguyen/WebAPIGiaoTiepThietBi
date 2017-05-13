@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VNPTThanhHoa_WebAPI", "VNPT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreMVC", "NetCoreMVC\NetCoreMVC.csproj", "{6796904E-A9B1-486C-882C-485872A30673}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMiddleware", "TestMiddleware\TestMiddleware.csproj", "{39D887CE-20C5-4BFD-9FC6-63DF0308A937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJWTIn.NetCoreApi", "TestJWTIn.NetCoreApi\TestJWTIn.NetCoreApi.csproj", "{B5274370-E798-40DE-88C0-4A730C2F846B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6796904E-A9B1-486C-882C-485872A30673}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6796904E-A9B1-486C-882C-485872A30673}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6796904E-A9B1-486C-882C-485872A30673}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39D887CE-20C5-4BFD-9FC6-63DF0308A937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39D887CE-20C5-4BFD-9FC6-63DF0308A937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39D887CE-20C5-4BFD-9FC6-63DF0308A937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39D887CE-20C5-4BFD-9FC6-63DF0308A937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5274370-E798-40DE-88C0-4A730C2F846B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5274370-E798-40DE-88C0-4A730C2F846B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5274370-E798-40DE-88C0-4A730C2F846B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5274370-E798-40DE-88C0-4A730C2F846B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

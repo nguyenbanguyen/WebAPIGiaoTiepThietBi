@@ -11,11 +11,20 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using VNPTThanhHoa_WebAPI.Data;
+using VNPTThanhHoa_WebAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace VNPTThanhHoa_WebAPI
 {
     public class Startup
     {
+        //private string GetXmlCommentsPath()
+        //{
+        //    var app = PlatformServices.Default.Application;
+        //    return System.IO.Path.Combine(app.ApplicationBasePath, "VNPTThanhHoa_WebAPI.xml");
+        //}
         /// <summary>
         /// setup for MVC
         /// </summary>
@@ -48,6 +57,13 @@ namespace VNPTThanhHoa_WebAPI
             {
                 options.Filters.Add(new RequireHttpsAttribute());
             });
+            //// add dbcontext vào sử dụng ngay connection string được khai báo tại đây// với app cần bảo mật thì nên lưu connection string tại appsettings.json.
+            services.AddDbContext<VNPTAPIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+      
+            //add identitycore vào project
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<VNPTAPIContext>()
+            //    .AddDefaultTokenProviders();
 
 
             // Register the Swagger generator, defining one or more Swagger documents
@@ -65,28 +81,56 @@ namespace VNPTThanhHoa_WebAPI
                 //Set the comments path for the swagger json and ui.
                 // onlyworking on local, need to be fixed
                 //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                //var xmlPath = Path.Combine(basePath, ".xml");
+                // var xmlPath = Path.Combine(basePath, ".xml");
                 //c.IncludeXmlComments(xmlPath);
-            });
 
+                //var XmlPath = GetXmlCommentsPath();
+                //c.IncludeXmlComments(XmlPath);
+
+            });
+            //var pathToDoc = Configuration["Swagger:FileName"];
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v2",
+                    new Info
+                    {
+                        Version = "v2",
+                        Title = " API Helper Page",
+                        Description = "A simple start ASP.NET Core Web API/ MBAAS",
+                        TermsOfService = "None",
+                        Contact = new Contact { Name = "Nguyễn Bá Nguyên", Email = "", Url = "https://github.com/nguyenbanguyen/" },
+                        License = new License { Name = "Tempplate using xml comment for swagger...", Url = " " }
+                    }
+                 );
+
+                //var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, pathToDoc);
+                //options.IncludeXmlComments(filePath);
+                //options.DescribeAllEnumsAsStrings();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, VNPTAPIContext VnptDbContext)
         {
+            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             // redirect to https
             //var options = new RewriteOptions().AddRedirectToHttps();
             // setup mvc
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
+                // Khai báo sử dụng exceptionhander, cần code  /home/error sau
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseStaticFiles();
             // config swagger
             //setup mvc routes
             app.UseMvc(routes =>
@@ -95,21 +139,27 @@ namespace VNPTThanhHoa_WebAPI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseStaticFiles();
+            
             //app.UseDefaultFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            // tạo file swagger json
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            });
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+            // tạo page swagger helper từ swagger json
             app.UseSwaggerUI(c =>
             {
                 //  url / description
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "VNPT API V1.0");
-
+                c.RoutePrefix = "Helper";
             });
-
+            //DbInitializer.Initialize(VnptDbContext);
+            
 
         }
     }
