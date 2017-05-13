@@ -119,6 +119,7 @@ namespace TestJWTIn.NetCoreApi.Controllers
 
             return Ok(contact);
         }
+        [HttpPost("RegisterToAnotherApi")]
         public async Task<bool> SendRegisterToApiAsyn(string username, string email,string password)
         {
             using (var httpClient = new HttpClient(new HttpClientHandler()))
