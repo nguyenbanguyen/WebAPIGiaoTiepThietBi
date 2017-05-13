@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestJWTIn.NetCoreApi.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace TestJWTIn.NetCoreApi.Controllers
 {
@@ -116,7 +119,34 @@ namespace TestJWTIn.NetCoreApi.Controllers
 
             return Ok(contact);
         }
+        public async Task<bool> SendRegisterToApiAsyn(string username, string email,string password)
+        {
+            using (var httpClient = new HttpClient(new HttpClientHandler()))
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, "/api/account/register");
+                request.Headers.Authorization = new AuthenticationHeaderValue(  "Basic",
+        Convert.ToBase64String(
+            System.Text.ASCIIEncoding.ASCII.GetBytes(
+                string.Format("{0}:{1}", "yourusername", "yourpwd"))));
 
+                var json = JsonConvert.SerializeObject(new { Email = email, Username = username, Password = password });
+                request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                var resp = await httpClient.SendAsync(request);
+
+                return resp.IsSuccessStatusCode;
+            }
+            //List<Post> posts = null;
+            //var client = new HttpClient
+            //{
+            //    BaseAddress = new Uri("http://jsonplaceholder.typicode.com/posts/")
+            //};
+
+            //var response = await client.GetAsync("");
+            //var stream = await response.Content.ReadAsStreamAsync();
+            //var serializer = new DataContractJsonSerializer(typeof(List<Post>));
+            //posts = (List<Post>)serializer.ReadObject(stream);
+        }
         private bool ContactExists(string id)
         {
             return _context.Contact.Any(e => e.Id == id);
